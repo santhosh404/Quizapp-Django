@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+  {% block body %}
+
+    <form action="" method="POST" id="form" name="myform">
+      {% csrf_token %}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <h2 class="navbar-brand navBrand" style="font-size: 30px; color:rgba(255, 255, 255, 0.1);">Python Quiz</h2>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <!-- Button trigger modal -->
+                <button
+                  id="viewResult"
+                  type="button"
+                  class="btn btn-secondary viewResult"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  style="font-size: 15px; font-weight: bold; color: #fff;  font-family: 'Poppins', sans-serif;"
+                >
+                  View Result
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <br />
+
+      <div class="card">
+        <div class="card-header">
+         <h5 class="inst" style="display: inline; font-family: 'Mate SC', serif; font-size: 25px;font-weight: bold; text-transform:capitalize;">Instructions</h5>
+
+      <h4 style="float: right; font-family: 'Mate SC', serif; font-weight: bold; color: green;" class="timer"><div id="timer">
+          <span id="hours">00:</span>
+          <span id="mins">00:</span>
+          <span id="seconds">00</span>
+        </div></h4>
+        </div>
+        <div class="card-body">
+    
+          <p class="card-text" >
+            <ul>
+              <li style="font-family: 'Mate SC', serif;">
+                Click "Start Test" button to start the test. <br>
+              </li>
+              <li style="font-family: 'Mate SC', serif;">
+                keep eye on the timer.
+              </li>
+            </ul>
+            
+            
+          </p>
+          <h6 style="font-family: 'Mate SC', serif; font-size: 20px; font-weight: bold;" class="topic">Questions & Timings</h6>
+         <ul>
+           <li style="font-family: 'Mate SC', serif;">Totally there are 10 Questions and you'll be allotted to 2 minute.</li>
+           <li style="font-family: 'Mate SC', serif;">If the time bars the limit the test is automatically submitted.</li>
+         </ul>
+          
+          
+          <h6 style="display: inline; font-family: 'Mate SC', serif; font-size: 20px; font-weight: bold;" class="difficulty">Difficulty -</h6> <p style="display: inline; color: green; font-family: 'Mate SC', serif; font-size: 20px;" class="type"><b>EASY</b>
+          </p> <br> <br>
+          <button type="button"  class="button btnPush btnBlueGreen"   id="start" style="font-size: 15px; font-weight: bold; font-family: 'Poppins', sans-serif;">Start Test</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 25px">
+        {% for i in app%}
+
+        <h5 style="font-weight: bold;" class="questions">{{i.question}}</h5>
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="{{i.id}}"
+            id="flexRadioDefault1"
+            value="{{i.option1}}"
+          />
+          <label class="form-check-label" for="flexRadioDefault1">
+            {{i.option1}}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="{{i.id}}"
+            id="flexRadioDefault2"
+            value="{{i.option2}}"
+            name="radio"
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            {{i.option2}}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="{{i.id}}"
+            id="flexRadioDefault3"
+            value="{{i.option3}}"
+            name="radio"
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            {{i.option3}}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="{{i.id}}"
+            id="flexRadioDefault4"
+            value="{{i.option4}}"
+            name="radio"
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            {{i.option4}}
+          </label>
+        </div>
+        <hr />
+      
+        {%endfor%}
+      
+      <button class="btn btn-success submitButton" id="btnSubmit" style="font-size: 15px; font-weight: bold;  font-family: 'Poppins', sans-serif; box-shadow: 3px 5px 5px 0px lightslategray;">Submit</button>
+
+     
+       
+      </div>
+    </form>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title title" id="exampleModalLabel">RESULT</h5>
+            <button
+              type="submit"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" style="font-family: 'Lexend', sans-serif;">
+            <table class="table table-borderless">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td>Total Number of Questions</td>
+                  <td><b>{{Total_ques}}</b></td>
+                </tr>
+                <tr>
+                  <td>Number of Questions Answered</td>
+                  <td><b>{{ques_answered}}</b></td>
+                </tr>
+                <tr>
+                  <td>Number of Correct Answers</td>
+                  <td style="color: green"><b>{{score}}</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <a href="{% url 'home' %}"
+              ><button type="button" class="btn btn-danger btn-sm finishButton" style="font-family: 'Poppins', sans-serif; box-shadow: 3px 5px 5px 0px lightslategray; font-weight: bold;">
+                Finish Test
+              </button></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}
